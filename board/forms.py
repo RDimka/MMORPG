@@ -11,17 +11,12 @@ class PostForm(forms.ModelForm):
         fields = [
                    'title',
                    'text',
-                   'author',
                    'category',
-                   'is_news',
+                    'author',
         ]
-        labels = {
-               'text': _('Текст'),
-               'author': _('Автор:'),
-               'category': _('Категории:'),
-        }
+        labels = {'text': _('Текст'), 'category': _('Категория'), 'Author': _('Автор')}
 
-   def clean(self):
+    def clean(self):
        cleaned_data = super().clean()
        text = cleaned_data.get("description")
        if text is not None and len(text) < 20:

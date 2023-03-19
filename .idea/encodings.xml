@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/board/forms.py" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/board/templatetags" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/templates/news.html" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templates/news_edit.html" charset="windows-1251" />
   </component>
 </project>

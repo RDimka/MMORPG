@@ -17,7 +17,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, UpdateV
 from django.shortcuts import get_object_or_404
 
 from .models import Post, Category
-#from .forms import PostForm
+from .forms import PostForm
 from .filters import PostFilter
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -90,36 +90,39 @@ class PostSearchList(ListView):
         return context
 
 # Добавляем новое представление для редактирования постов.
-# class PostCreate(PermissionRequiredMixin, CreateView):
-#
-#     permission_required = ('news_app.add_post',)
-#
-#     # Указываем нашу разработанную форму
-#     form_class = PostForm
-#     # модель постов
-#     model = Post
-#     # и новый шаблон, в котором используется форма.
-#     template_name = 'news_edit.html'
-#
-#     def form_valid(self, form):
-#         post = form.save(commit=False)
-#         path = self.request.META['PATH_INFO']
-#
-#         #сохраняем, чтобы получить id статьи
-#         post = form.save()
-#
-#         # запускаем задачу на оповещение подписчиков о создании статьи
-#         #notify_at_new_post_added.delay(post.pk)
-#
-#         return super().form_valid(form)
 
-# class PostUpdate(PermissionRequiredMixin, UpdateView):
-#
-#     permission_required = ('news_app.change_post',)
-#
-#     form_class = PostForm
-#     model = Post
-#     template_name = 'news_edit.html'
+
+class PostCreate(PermissionRequiredMixin, CreateView):
+
+    permission_required = ('board.add_post',)
+
+    # Указываем нашу разработанную форму
+    form_class = PostForm
+    # модель постов
+    model = Post
+    # и новый шаблон, в котором используется форма.
+    template_name = 'news_edit.html'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        path = self.request.META['PATH_INFO']
+
+        #сохраняем, чтобы получить id статьи
+        post = form.save()
+
+        # запускаем задачу на оповещение подписчиков о создании статьи
+        #notify_at_new_post_added.delay(post.pk)
+
+        return super().form_valid(form)
+
+
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+
+    permission_required = ('board_app.change_post',)
+
+    form_class = PostForm
+    model = Post
+    template_name = 'news_edit.html'
 
 
 # Представление удаляющее товар.

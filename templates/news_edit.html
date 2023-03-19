@@ -1,0 +1,21 @@
+{% extends 'default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+All news
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+        <div class="col-lg-7">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Save" />
+            </form>
+        </div>
+
+{% endblock content %}
+
+
