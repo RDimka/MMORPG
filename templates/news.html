@@ -1,0 +1,30 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'default.html' %}
+
+{% load custom_tags %}
+
+<!-- Название у нас будет Post -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим саму статью, идентификатор которой был передан в url -->
+{% block content %}
+<div class="col-lg-10">
+    <img class="img-fluid" src="images/post/post-single/01.png'" alt="">
+    <h1 class="text-white add-letter-space mt-4">{{ news.title}}</h1>
+    <ul class="post-meta mt-3 mb-4">
+        <li class="d-inline-block mr-3">
+            <span class="fas fa-clock text-primary"></span>
+            <a class="ml-1" href="#">{% current_time '%d %b %Y' %}</a>
+        </li>
+        <li class="d-inline-block">
+            <span class="fas fa-list-alt text-primary"></span>
+            <a class="ml-1" href="#">{{ news.category }}</a>
+        </li>
+    </ul>
+
+    <p>{{ news.text }}</p>
+</div>
+
+{% endblock content %}
