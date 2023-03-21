@@ -3,7 +3,13 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/board/forms.py" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/board/templatetags" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/protect/urls.py" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/sign/urls.py" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templates/account" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templates/main.html" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/templates/news.html" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/templates/news_edit.html" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templates/protect" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/templates/sign" charset="windows-1251" />
   </component>
 </project>
