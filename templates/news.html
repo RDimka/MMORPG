@@ -10,8 +10,9 @@ News
 
 <!-- В контенте на странице мы выводим саму статью, идентификатор которой был передан в url -->
 {% block content %}
+{% load static %}
 <div class="col-lg-10">
-    <img class="img-fluid" src="images/post/post-single/01.png'" alt="">
+    <img class="img-fluid" src="" alt="">
     <h1 class="text-white add-letter-space mt-4">{{ news.title}}</h1>
     <ul class="post-meta mt-3 mb-4">
         <li class="d-inline-block mr-3">
@@ -27,7 +28,7 @@ News
             <a class="ml-1" href="#">{{ news.author }}</a>
         </li>
     </ul>
-    <p>{{ news.text }}</p>
+    <p>{{ news.wysiwyn_text }}</p>
     <ul class="post-meta mt-3 mb-4">
         <li class="d-inline-block mr-3">
             <span class="fas fa-clock text-primary"></span>

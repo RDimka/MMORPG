@@ -38,13 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'board',
+
+    'board.apps.BoardConfig',
     'django_filters',
     'sign',
     'protect',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    'markdownx',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.google',
 ]

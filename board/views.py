@@ -64,7 +64,7 @@ class PostDetail(DetailView):
         context = super().get_context_data(**kwargs)
         reply_list_by_postid = Reply.objects.filter(post=self.kwargs['pk']).order_by('-date_time_in')
 
-        print(reply_list_by_postid)
+        #print(reply_list_by_postid)
         #Добавляем флаг если статья пользователяь
         context['replys'] = reply_list_by_postid
         #print(context['is_author'])
@@ -126,6 +126,10 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_author'] = True
+        return context
 
 class PostUpdate(PermissionRequiredMixin, UpdateView):
 
@@ -189,9 +193,9 @@ class ReplyAdd(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         reply = form.save(commit=False)
         reply.user = self.request.user
-        print(reply.user)
+        #print(reply.user)
         reply.post = get_object_or_404(Post, id=self.kwargs['pk'])
-        print(reply.post)
+        #print(reply.post)
         #сохраняем, чтобы получить id статьи
         reply = form.save()
     #

@@ -13,8 +13,8 @@ All news
                 {% csrf_token %}
                 {% if is_author %}
                     {{ form.as_p }}
-
                 <input type="submit" value="Save" />
+                {{ form.media }}
                 {% else %}
                     <p>Вы не можете редактировать обьявление, так как не являетесь ее автором.</p>
                 {% endif %}

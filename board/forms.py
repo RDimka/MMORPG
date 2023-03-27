@@ -2,19 +2,22 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Post, Reply
 from django.utils.translation import gettext_lazy as _
+from markdownx.fields import MarkdownxFormField
 
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(max_length=255, label='Заголовок:')
+    wysiwyn_text = MarkdownxFormField()
+
     class Meta:
         model = Post
         fields = [
                    'title',
                    'text',
                    'category',
-                   # 'author',
+                   'wysiwyn_text',
         ]
-        labels = {'text': _('Текст'), 'category': _('Категория'), #'Author': _('Автор')
+        labels = {'text': _('Текст'), 'category': _('Категория'), 'wysiwyn_text': _('Текст обьявления')
                  }
 
     def clean(self):
