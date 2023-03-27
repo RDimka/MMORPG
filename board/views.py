@@ -16,8 +16,8 @@ from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 
-from .models import Post, Category
-from .forms import PostForm
+from .models import Post, Category, Reply
+from .forms import PostForm, ReplyForm
 from .filters import PostFilter
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -59,6 +59,16 @@ class PostDetail(DetailView):
     template_name = 'news.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'news'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reply_list_by_postid = Reply.objects.filter(post=self.kwargs['pk']).order_by('-date_time_in')
+
+        print(reply_list_by_postid)
+        #Добавляем флаг если статья пользователяь
+        context['replys'] = reply_list_by_postid
+        #print(context['is_author'])
+        return context
 
 
 class PostSearchList(ListView):
@@ -105,6 +115,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
+        post.author = self.request.user
         path = self.request.META['PATH_INFO']
 
         #сохраняем, чтобы получить id статьи
@@ -118,12 +129,21 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
 class PostUpdate(PermissionRequiredMixin, UpdateView):
 
-    permission_required = ('board_app.change_post',)
+    permission_required = ('board.change_post',)
 
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
+#проверяем принадлежит ли обьявление пользователю
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_by_id = get_object_or_404(Post, id=self.kwargs['pk'])
+        #print(post_by_id)
+        #Добавляем флаг если статья пользователяь
+        context['is_author'] = True if post_by_id.author == self.request.user else False
+       # print(context['is_author'])
+        return context
 
 # Представление удаляющее товар.
 # class PostDelete(DeleteView):
@@ -154,6 +174,40 @@ class PostUpdate(PermissionRequiredMixin, UpdateView):
 #         context['category'] = self.category
 #         return context
 
+class ReplyAdd(PermissionRequiredMixin, CreateView):
+
+    permission_required = ('board.add_reply',)
+
+    # Указываем нашу разработанную форму
+    form_class = ReplyForm
+    # модель постов
+    model = Reply
+    # и новый шаблон, в котором используется форма.
+    template_name = 'reply_add.html'
+
+# нужно добавить Автора и пост
+    def form_valid(self, form):
+        reply = form.save(commit=False)
+        reply.user = self.request.user
+        print(reply.user)
+        reply.post = get_object_or_404(Post, id=self.kwargs['pk'])
+        print(reply.post)
+        #сохраняем, чтобы получить id статьи
+        reply = form.save()
+    #
+    #     # запускаем задачу на оповещение подписчиков о создании статьи
+    #     #notify_at_new_post_added.delay(post.pk)
+    #
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_data = get_object_or_404(Post, id=self.kwargs['pk'])
+
+        print(post_data)
+        #Добавляем флаг если статья пользователяь
+        context['news'] = post_data
+        return context
 #только для зареганных пользователей
 # @login_required
 # def subscribe(request, pk):

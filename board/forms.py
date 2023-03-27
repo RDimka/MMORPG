@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Post
+from .models import Post, Reply
 from django.utils.translation import gettext_lazy as _
 
 
@@ -12,9 +12,10 @@ class PostForm(forms.ModelForm):
                    'title',
                    'text',
                    'category',
-                    'author',
+                   # 'author',
         ]
-        labels = {'text': _('Текст'), 'category': _('Категория'), 'Author': _('Автор')}
+        labels = {'text': _('Текст'), 'category': _('Категория'), #'Author': _('Автор')
+                 }
 
     def clean(self):
        cleaned_data = super().clean()
@@ -23,6 +24,32 @@ class PostForm(forms.ModelForm):
            raise ValidationError({
                "text": "Статья/новость не может быть менее 20 символов."
            })
+
+       # title = cleaned_data.get("title")
+       # if len(title) > 255:
+       #     raise ValidationError(
+       #         "Заголовок не должно быть длиннее 255 символов."
+       #     )
+
+       return cleaned_data
+
+
+class ReplyForm(forms.ModelForm):
+    #reply_text = forms.CharField(max_length=255, label='Заголовок:')
+    class Meta:
+        model = Reply
+        fields = [
+                   'reply',
+                 ]
+        labels = {'reply': _('Отклик'),}
+
+    def clean(self):
+       cleaned_data = super().clean()
+       # text = cleaned_data.get("description")
+       # if text is not None and len(text) < 20:
+       #     raise ValidationError({
+       #         "text": "Статья/новость не может быть менее 20 символов."
+       #     })
 
        # title = cleaned_data.get("title")
        # if len(title) > 255:

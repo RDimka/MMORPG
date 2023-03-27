@@ -49,4 +49,5 @@ class Reply(models.Model):
     def __str__(self):
         return f'{self.reply}'
 
-
+    def get_absolute_url(self):
+        return reverse('news_detail', args=[str(self.post.id)])
