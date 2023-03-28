@@ -28,7 +28,7 @@ News
             <a class="ml-1" href="#">{{ news.author }}</a>
         </li>
     </ul>
-    <p>{{ news.wysiwyn_text }}</p>
+    <p>{{ news.wysiwyn_text|safe }}</p>
     <ul class="post-meta mt-3 mb-4">
         <li class="d-inline-block mr-3">
             <span class="fas fa-clock text-primary"></span>

@@ -2,23 +2,21 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Post, Reply
 from django.utils.translation import gettext_lazy as _
-from markdownx.fields import MarkdownxFormField
+from ckeditor.widgets import CKEditorWidget
 
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(max_length=255, label='Заголовок:')
-    wysiwyn_text = MarkdownxFormField()
+    wysiwyn_text = forms.CharField(widget=CKEditorWidget(), label='Обьявление')
 
     class Meta:
         model = Post
         fields = [
                    'title',
-                   'text',
                    'category',
                    'wysiwyn_text',
         ]
-        labels = {'text': _('Текст'), 'category': _('Категория'), 'wysiwyn_text': _('Текст обьявления')
-                 }
+        labels = {'category': _('Категория')}
 
     def clean(self):
        cleaned_data = super().clean()

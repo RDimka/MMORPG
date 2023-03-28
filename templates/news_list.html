@@ -32,8 +32,8 @@ All news
                             <a class="ml-1" href="#">{{ news.author }}</a>
                         </li>
                     </ul>
-                    <p class="card-text my-4">{{ news.text | truncatechars:100 }}</p>
-                    <a href="{{ news.id }}" class="btn btn-primary">Подробнее <img src="{ static 'images/arrow-right.png' static}" alt=""></a>
+                    <p class="card-text my-4">{{  news.wysiwyn_text|safe }}</p>
+                    <BR><a href="{{ news.id }}" class="btn btn-primary">Подробнее <img src="{ static 'images/arrow-right.png' static}" alt=""></a>
                 </div>
             </div>
         {% endfor %}

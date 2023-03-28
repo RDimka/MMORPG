@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    'markdownx',
+    'ckeditor',
     # ... include the providers you want to enable:
     #'allauth.socialaccount.providers.google',
 ]
@@ -164,4 +164,7 @@ EMAIL_HOST_USER = 'rdimir'#os.getenv('EMAIL_HOST_USER')  # ваше имя по�
 EMAIL_HOST_PASSWORD = 'blgijrnfgdurwzde'#os.getenv('EMAIL_HOST_PASSWORD')  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 DEFAULT_FROM_EMAIL = 'rdimir@yandex.ru'#os.getenv('DEFAULT_FROM_EMAIL')
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/'
 

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Avg, Count, Min, Sum
 from django.urls import reverse
-from markdownx.models import MarkdownxField
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
@@ -17,8 +17,7 @@ class Category(models.Model):
 class Post(models.Model):
     date_time_in = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
-    text = models.TextField()
-    wysiwyn_text = MarkdownxField(default='')
+    wysiwyn_text = RichTextField(blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
