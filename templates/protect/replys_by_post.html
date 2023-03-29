@@ -1,47 +1,70 @@
 {% extends 'default.html' %}
-
+{% load custom_filters %}
 {% load custom_tags %}
 
 {% block title %}
 All news
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все товары -->
 {% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+<br>
+{% if is_not_premium %}
+<button> <a href="sign/upgrade/"> Подписаться на новости</a> </button>
+{% endif %}
+<br>
+<p><button> <a href="sign/logout/">Выйти</a> </button></p>
+
         <div class="col-lg-7">
-             <a class="text-white opacity-75-onHover" href="create/">Создать обьявление</a>
-<!-- Выводим новости, только если они есть с помощью тега if -->
-    {% if news_list %}
-        {% for news in news_list %}
-            <div class="card post-item bg-transparent border-0 mb-5">
-                <a href="{{ news.id }}"><img class="card-img-top rounded-0" src="{ static 'images/post/post-lg/01.png' %}" alt=""></a>
+
+            <a class="text-white opacity-75-onHover" href="/">Вернуться к списку всех откликов на обьявлени.я</a>
+<!-- Выводим отклики, только если они есть с помощью тега if -->
+        {% if reply_list %}
+             <div class="card post-item bg-transparent border-0 mb-5">
                 <div class="card-body px-0">
+                    <h3 class="text-white opacity-75-onHover">Отклики на обьявление:</h3>
                     <h2 class="card-title">
-                        <a class="text-white opacity-75-onHover" href="{{ news.id }}">{{ news.title }}</a>
+                        <a class="text-white opacity-75-onHover" href="/protect/filter/{{ post.id }}">{{ post.title }}</a>
                     </h2>
+                    {% for reply in reply_list %}
                     <ul class="post-meta mt-3">
                         <li class="d-inline-block mr-3">
                             <span class="fas fa-clock text-primary"></span>
-                            <a class="ml-1" href="#">{{ news.date_time_in | date:'d M Y' }}</a>
+                            <a class="ml-1" href="#">{{ reply.date_time_in | date:'d M Y' }}</a>
                         </li>
                         <li class="d-inline-block">
                             <span class="fas fa-list-alt text-primary"></span>
-                            <a class="ml-1" href="#">{{ news.category }}</a>
+                            <a class="ml-1" href="#">{{ reply.post.category }}</a>
                         </li>
                         <li class="d-inline-block">
                             <span class="fas fa-list-alt text-primary"></span>
-                            <a class="ml-1" href="#">{{ news.author }}</a>
+                            <a class="ml-1" href="#">{{ reply.user.username }}</a>
                         </li>
+                        <li class="d-inline-block">
+                            <span class="fas fa-list-alt text-primary"></span>
+                            <a class="ml-1" href="/protect/reply/{{ reply.id }}/delete">Удалить отклик</a>
+                        </li>
+                        {% if reply.accepted == False %}
+                        <li class="d-inline-block">
+                            <span class="fas fa-list-alt text-primary"></span>
+                            <a class="ml-1" href="/protect/reply/{{ reply.id }}/accept">Принять отклик</a>
+                        </li>
+                        {% endif %}
                     </ul>
-                    <p class="card-text my-4">{{  news.wysiwyn_text|safe }}</p>
-                    <BR><a href="{{ news.id }}" class="btn btn-primary">Подробнее <img src="{ static 'images/arrow-right.png' static}" alt=""></a>
+                    <p class="card-text my-4">{{  reply.reply }}</p>
                 </div>
             </div>
-        {% endfor %}
+                    {% endfor %}
         {% else %}
             <!-- Если новостей нет, говорим, что новостей нет ;) -->
             <div class="card post-item bg-transparent border-0 mb-5">
-                <h2>Новостей нет!</h2>
+                <div class="card-body px-0">
+                    <h3 class="text-white opacity-75-onHover">Откликов нет</h3>
+                    <h2 class="card-title">
+                        <a class="text-white opacity-75-onHover" href="">{{ post.title }}</a>
+                    </h2>
+                </div>
             </div>
         {% endif %}
 
@@ -79,4 +102,4 @@ All news
         </div>
 
 
-{% endblock content %}
+{% endblock %}

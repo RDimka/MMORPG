@@ -10,8 +10,8 @@ All news
 <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
 <div> Здесь может содержаться персональная информация для каждого пользователя </div>
 <br>
-{% if is_not_premium %}
-<button> <a href="sign/upgrade/"> Подписаться на новости</a> </button>
+{% if is_not_subscribed %}
+<button> <a href="protect/subscribe"> Подписаться на новости</a> </button>
 {% endif %}
 <br>
 <p><button> <a href="sign/logout/">Выйти</a> </button></p>
@@ -21,10 +21,9 @@ All news
     {% if reply_list %}
         {% for reply in reply_list %}
             <div class="card post-item bg-transparent border-0 mb-5">
-
                 <div class="card-body px-0">
                     <h2 class="card-title">
-                        <a class="text-white opacity-75-onHover" href="protect/filter/{{ reply.post.id }}">{{ reply.post.title }}</a>
+                        <a class="text-white opacity-75-onHover" href="/protect/filter/{{ reply.post.id }}">{{ reply.post.title }}</a>
                     </h2>
                     <ul class="post-meta mt-3">
                         <li class="d-inline-block mr-3">
@@ -39,10 +38,14 @@ All news
                             <span class="fas fa-list-alt text-primary"></span>
                             <a class="ml-1" href="#">{{ reply.user.username }}</a>
                         </li>
+                        <li class="d-inline-block">
+                            <span class="fas fa-list-alt text-primary"></span>
+                            <a class="ml-1" href="/protect/reply/{{ reply.id }}/delete">Удалить отклик</a>
+                        </li>
                         {% if reply.accepted == False %}
                         <li class="d-inline-block">
                             <span class="fas fa-list-alt text-primary"></span>
-                            <a class="ml-1" href="protect/accept/{{ reply.id }}">Принять отклик</a>
+                            <a class="ml-1" href="/protect/reply/{{ reply.id }}/accept">Принять отклик</a>
                         </li>
                         {% endif %}
                     </ul>
