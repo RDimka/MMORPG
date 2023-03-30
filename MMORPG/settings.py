@@ -139,8 +139,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-LOGIN_URL = '/accounts/login/'
-#'/sign/login/'
+LOGIN_URL = '/sign/login/'
+
 LOGIN_REDIRECT_URL = '/board'
 
 # Default primary key field type

@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Avg, Count, Min, Sum
-from django.urls import reverse
-from ckeditor.fields import RichTextField
-# Create your models here.
 
+from django.urls import reverse
+from ckeditor.fields import RichTextField #wysiwyn редактор
+# Create your models here.
 
 
 class Category(models.Model):
@@ -31,6 +30,7 @@ class Post(models.Model):
         return f'{self.title} | {self.author}'
 
 
+#Модель подписанных на рассылку пользователей
 class SubscribedUsers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

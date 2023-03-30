@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
+#форма активации
 class MyActivationCodeForm(forms.Form):
     error_css_class = 'has-error'
     error_messages = {'password_incorrect':
@@ -26,6 +27,7 @@ class MyActivationCodeForm(forms.Form):
         return profile
 
 
+#Форма регистрации
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label='Email')
     username = forms.CharField(required=True, max_length=15, label='Логин',  min_length=2)

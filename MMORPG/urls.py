@@ -21,7 +21,6 @@ urlpatterns = [
     path('', include('protect.urls')),
     path('board/', include('board.urls')),
     path('sign/', include('sign.urls')),
-
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('allauth.urls')),
 ]

@@ -26,17 +26,11 @@ class PostForm(forms.ModelForm):
                "text": "Статья/новость не может быть менее 20 символов."
            })
 
-       # title = cleaned_data.get("title")
-       # if len(title) > 255:
-       #     raise ValidationError(
-       #         "Заголовок не должно быть длиннее 255 символов."
-       #     )
-
        return cleaned_data
 
 
 class ReplyForm(forms.ModelForm):
-    #reply_text = forms.CharField(max_length=255, label='Заголовок:')
+
     class Meta:
         model = Reply
         fields = [
@@ -45,17 +39,6 @@ class ReplyForm(forms.ModelForm):
         labels = {'reply': _('Отклик'),}
 
     def clean(self):
-       cleaned_data = super().clean()
-       # text = cleaned_data.get("description")
-       # if text is not None and len(text) < 20:
-       #     raise ValidationError({
-       #         "text": "Статья/новость не может быть менее 20 символов."
-       #     })
+        cleaned_data = super().clean()
 
-       # title = cleaned_data.get("title")
-       # if len(title) > 255:
-       #     raise ValidationError(
-       #         "Заголовок не должно быть длиннее 255 символов."
-       #     )
-
-       return cleaned_data
+        return cleaned_data

@@ -1,10 +1,11 @@
 from django.core.mail import EmailMultiAlternatives
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 from MMORPG import settings
-from board.models import Reply
+from board.models import Reply, SubscribedUsers
+from protect.models import NewsToSend
 
 
 def send_email_notif(reply, title, template, subscribers_email):
@@ -27,16 +28,28 @@ def send_email_notif(reply, title, template, subscribers_email):
     message.send()
 
 
+#обработчик сиглана на добавление отклика
 @receiver(post_save, sender=Reply)
 def new_reply_added(sender, instance, **kwargs):
-    #print('Сработал сигнал по добавлению отклика')
-    #событие - добавление отклика
     if kwargs['created'] == True:
         send_email_notif(instance.reply, f'Новый отклик на обьявление {instance.post.title}', 'reply_add_email.html', [instance.user.email])
 
+#обработчик сигнала на принятие отклика
 @receiver(post_save, sender=Reply)
 def reply_accepted(sender, instance, **kwargs):
-    #print('Сработал сигнал по сохранению отклика')
-    #событие - добавление отклика
     if kwargs['update_fields'] == {'accepted'}:
-        send_email_notif(instance.reply, f'Ваш отклик принят. Обьявление: {instance.post.title}', 'reply_accepted_email.html', [instance.user.email])
+        send_email_notif(instance.reply, f'Ваш отклик принят. Обьявление: {instance.post.title}', 'reply_add_email.html', [instance.user.email])
+
+#Обработчик сигнала на добавление записи в модель Новостной рассылки.
+@receiver(post_save, sender=NewsToSend)
+def send_news(sender, instance, **kwargs):
+    #Если не черновик - то рассылаем новости
+    if not instance.is_draft:
+        #print('Рассылаем')
+        subscribers = set(SubscribedUsers.objects.all())
+        subscribers_emails = []
+        for sub_users in subscribers:
+            subscribers_emails.append(sub_users.user.email)
+        print(subscribers_emails)
+        send_email_notif(instance.wysiwyn_text, f'{instance.title}',
+                     'protect/news_subscribe.html', subscribers_emails)
